@@ -1,14 +1,22 @@
 from socket import *
 import sys
+import configparser
+
+config = configparser.ConfigParser()
+config.read('config.ini')
+SERVER_IP = config["SERVER"]['ip']
 
 clientSock = socket(AF_INET, SOCK_STREAM)
-clientSock.connect(('127.0.0.1', 8080))
+clientSock.connect((SERVER_IP, 8080))
 
-print('연결 확인 됐습니다.')
+print('Connected.')
 
 while True:
-    data = clientSock.recv(1024)
-    print(data.decode('utf-8'))
+    data = clientSock.recv(1024).decode('utf-8')
+    print(data)
+    if data == ">> Disconnected.":
+        clientSock.close()
+        break
     result = sys.stdin.readline().strip()
     clientSock.send(result.encode('utf-8'))
 

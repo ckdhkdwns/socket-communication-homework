@@ -15,23 +15,23 @@ class ServerMessageHandler:
         return json.dumps(data).encode(self.encoding)
 
     def get_row(self, target_client, row_index):
-        # self.lock.acquire()
+        self.lock.acquire()
         target_client.send(self.make_encoded_json("row", row_index))
         row = json.loads(target_client.recv(1024).decode(self.encoding))
-        # self.lock.release()
+        self.lock.release()
         self.time_count += 1
         return row
 
     def get_column(self, target_client, col_index):
-        # self.lock.acquire()
+        self.lock.acquire()
         target_client.send(self.make_encoded_json("col", col_index))
         col = json.loads(target_client.recv(1024).decode(self.encoding))
-        # self.lock.release()
+        self.lock.release()
         self.time_count += 1
         return col
 
     def get_multiplied(self, target_client, row_client, col_client, row_index, col_index, row, col):
-        # self.lock.acquire()
+        self.lock.acquire()
         row_col = {
             "row_client": row_client,
             "col_client": col_client,
@@ -42,7 +42,7 @@ class ServerMessageHandler:
         }
         target_client.send(self.make_encoded_json("calculate", row_col))
         result = target_client.recv(1024).decode(self.encoding)
-        # self.lock.release()
+        self.lock.release()
         self.time_count += 1
         return result
 

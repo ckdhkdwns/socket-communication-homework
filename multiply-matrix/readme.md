@@ -45,8 +45,8 @@ python client.py
 ```
 ### MessageHandler
 메세지와 관련된 클래스입니다.  
-`_client_message.py` 의 `ClientMessageHandler` : 클라이언트가 송신, 수신하는 메서드들이 있습니다.
-`_server_message.py` 의 `ServerMessageHandler` : 서버가 송신, 수신하는 메서드들이 있습니다. 
+- `_client_message.py` 의 `ClientMessageHandler` : 클라이언트가 송신, 수신하는 메서드들이 있습니다.
+- `_server_message.py` 의 `ServerMessageHandler` : 서버가 송신, 수신하는 메서드들이 있습니다. 
 
 ### ClientHander
 클라이언트를 제어합니다.

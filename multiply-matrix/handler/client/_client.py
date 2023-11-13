@@ -53,5 +53,11 @@ class ClientHandler(ClientMessageHandler):
         self.conn.connect((SERVER_IP, SERVER_PORT))
 
         self.logger.log('서버와 연결되었습니다.')
-        th = threading.Thread(target=self.receive())
-        th.start()
+        ths = []
+        for _ in range(6):
+            th = threading.Thread(target=self.receive())
+            ths.append(th)
+            th.start()
+        for th in ths:
+            th.join()
+

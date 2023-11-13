@@ -20,8 +20,11 @@ class RoundHandler(ServerMessageHandler):
         self.round_result = []
         self.round_count = 0
 
+        self.lock = threading.Lock()
+
     def round(self):
         ths = []
+
         for i in range(6):
             th = threading.Thread(target=self.round_thread, args=(i,))
             ths.append(th)
@@ -43,9 +46,12 @@ class RoundHandler(ServerMessageHandler):
             self.clients[self.matrix_output[index][1]]
         ]
 
+        self.lock.acquire()
         for row_index in range(MATRIX_SIZE):
             row = self.get_row(input_clients[0], row_index)
+
             for col_index in range(MATRIX_SIZE):
+
                 col = self.get_column(input_clients[1], col_index)
 
                 fair_num = row_index % 2  # 공평하게 분배하기 위한 상수
@@ -55,6 +61,8 @@ class RoundHandler(ServerMessageHandler):
                                              row_index, col_index,
                                              row, col)
                 self.update_result(result, index, row_index, col_index)
+        self.lock.release()
+
 
     def update_result(self, result, index, row_index, col_index): # 받아온 값을 업데이트
         self.round_result[index][row_index][col_index] = result

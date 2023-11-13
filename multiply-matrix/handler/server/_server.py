@@ -40,7 +40,7 @@ class ServerHandler:
 
             while True:
                 client, addr = server_socket.accept()
-                connection_thread = threading.Thread(target=self.client_thread, args=(client, addr))
+                connection_thread = threading.Thread(target=self.client_thread, args=(client, ))
                 connection_thread.start()
                 clients_count = len(self.clients)
                 if clients_count == 4:  # 만약 클라이언트 4개가 접속하면 계산 시작

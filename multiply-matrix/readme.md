@@ -57,12 +57,13 @@ python client.py
 
 ### ServerHandler
 서버를 제어합니다. 내부에서 `RoundHandler`를 통해 행렬 연산을 시작시킵니다.
-> `ServerMessageHandler`를 상속받습니다.
 - `client_thread(self, client)` : 클라이언트가 접속했음을 알리고 `clients`리스트에 클라이언트를 추가합니다.
 - `send_disconnect_signal(self)` : 클라이언트들과의 연결을 종료합니다.
 - `run(self)` : 서버를 실행합니다. 만약 서버에 4개의 클라이언트들이 접속했다면 `RoundHandler`의 `run()` 메서드를 호출합니다.
 
 ### RoundHandler
+라운드를 관리합니다.
+> `ServerMessageHandler`를 상속받습니다.
 - `round(self)` : 각 연산 케이스들을 병렬로 실행시킵니다.
 - `round_thread(self, index)` : <u>행렬의 정보를 제공할 클라이언트</u>와 <u>제공받은 값을 계산할 클라이언트</u>를 나눕니다. 값을 받아와 계산할 클라이언트들에게 **공평**하게 나눕니다.
 - `update_result(...)` : 받아온 값을 바로 서버에 업데이트합니다.

@@ -83,7 +83,7 @@ class RoundHandler(ServerMessageHandler):
             self.logger.log("-----라운드 {}-----".format(i+1))
             for j in range(6):
                 self.logger.log("{}번째 클라이언트와 {}번째 클라이언트의 곱셈 결과입니다.".format(
-                    self.matrix_input[0], self.matrix_input[1]))
+                    self.matrix_input[j][0]+1, self.matrix_input[j][1]+1))
                 for k in range(MATRIX_SIZE):
 
                     row = list(map(int, self.total_results[i]["result"][j][k]))

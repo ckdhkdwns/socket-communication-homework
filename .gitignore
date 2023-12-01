@@ -1,0 +1,6 @@
+p2p/files/
+*.file
+*.txt
+*.pyc
+.DS_Store
+.DS_Store

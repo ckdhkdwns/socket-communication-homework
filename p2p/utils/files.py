@@ -1,4 +1,4 @@
-def split_file(input_file, chunk_size= 256 * 1000):
+def split_file(input_file, chunk_size= 256000):
     chunks = []
     with open(input_file, 'rb') as f:
         while True:

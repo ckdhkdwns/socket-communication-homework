@@ -1,7 +1,7 @@
 from utils.logger import Logger
 from utils.files import split_file
 from utils.hash import get_file_hash
-from utils.sequence import get_seq_chunk, split_chunk
+from utils.sequence import get_seq_chunk
 
 from socket import *
 
@@ -12,10 +12,13 @@ length = len(chunks)
 print(get_seq_chunk('A', 7, 32, chunks[0][:10]))
 print(length)
 print(len(chunks[0]))
+import queue
+
 
 # print(len(my_chunks['front']))
 
-
+print(get_file_hash('./files/B.file'))
+print(get_file_hash('./result_files/1/resultB.file'))
 # print(get_file_hash('./files/smallA.file'))
 # print(get_file_hash('./result_files/2/resultA.file'))
 # print(get_file_hash('./result_files/3/resultA.file'))

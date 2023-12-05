@@ -28,9 +28,10 @@ temp = split_file('./files/A.file')
 chunk_length = len(temp)
         
 status_count = 0
+end_count = 0
 status_message = ["" for _ in range(4)]
 def client_thread(client_index, client):
-    global closed_count, status_count, status_message
+    global closed_count, status_count, status_message, end_count
 
     while True:
         data = client.recv(4096).decode('utf-8').split(" ")
@@ -51,6 +52,10 @@ def client_thread(client_index, client):
             )
             status_count += 1
             lock.release()
+        elif data[0] == "end":
+            with lock:
+                end_count += 1
+            break
 
         if status_count == 4:
             for s in status_message:
@@ -60,10 +65,13 @@ def client_thread(client_index, client):
             status_message = ["" for _ in range(4)]
             status_count = 0
             lock.release()
-        elif data[0] == "end":
-            client.send("end".encode('utf-8'))
-            client.close()
-            break
+        if end_count == 4:
+            for client in clients:
+                client.send("end".encode('utf-8'))
+                
+                break
+        
+            
         
 
 

@@ -72,7 +72,6 @@ def send_chunk():
         v = send_queue.get()
 
         send_connections[int(v[:2].decode('utf-8'))].sendall(v[2:])
-
     
 
 def append_chunk_to_queue(conn, type):
@@ -117,6 +116,7 @@ def receive_from_server():
                 ).encode("utf-8")
             )
         if data == "end":
+            logger.log("모든 전송이 끝났습니다.")
             conn_server.close()
             break
 
@@ -136,8 +136,7 @@ def receive_from_client(index, conn):
             for _ in range(256000 // split_size):
                 content += conn.recv(split_size)
         except Exception as e:
-            print(index, e)
-            exit(0)
+            break
 
         # lock.acquire()
         # data = conn.recv(chunk_size)
@@ -165,7 +164,6 @@ def connect_client(port):
     else:
         conn.connect(("127.0.0.1", 8000 + port))
 
-    conn.connect((SERVER_IP, 8000 + port))
     logger.log("{}와의 연결이 성립되었습니다.".format(port))
 
     if port in [14, 24, 34]:

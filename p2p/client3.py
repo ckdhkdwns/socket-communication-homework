@@ -66,7 +66,6 @@ def send_chunk():
 
         send_connections[int(v[:2].decode('utf-8'))].sendall(v[2:])
 
-
 def append_chunk_to_queue(conn, type):
     for index, chunk in enumerate(my_chunks[type]):
         seq = index
@@ -110,6 +109,7 @@ def receive_from_server():
                 ).encode("utf-8")
             )
         if data == "end":
+            print("모든 전송이 끝났습니다.")
             conn_server.close()
             break
 
@@ -129,8 +129,7 @@ def receive_from_client(index, conn):
             for _ in range(256000 // split_size):
                 content += conn.recv(split_size)
         except Exception as e:
-            print(index, e)
-            exit(0)
+            break
 
         # logger.log(
         #     "[{}] {}의 {}번째 데이터를 받았습니다. 크기: {}".format(

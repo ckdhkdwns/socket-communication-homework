@@ -30,6 +30,8 @@ chunk_length = len(temp)
 status_count = 0
 end_count = 0
 status_message = ["" for _ in range(4)]
+
+
 def client_thread(client_index, client):
     global closed_count, status_count, status_message, end_count
 
@@ -71,9 +73,6 @@ def client_thread(client_index, client):
                 
                 break
         
-            
-        
-
 
 def process():
     for client in clients:

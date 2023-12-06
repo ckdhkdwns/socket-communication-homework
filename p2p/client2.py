@@ -66,7 +66,6 @@ def send_chunk():
     count = 0
     while True:
         v = send_queue.get()
-
         send_connections[int(v[:2].decode('utf-8'))].sendall(v[2:])
     
 
@@ -114,6 +113,7 @@ def receive_from_server():
                 ).encode("utf-8")
             )
         if data == "end":
+            logger.log("모든 전송이 끝났습니다.")
             conn_server.close()
             break
 
@@ -134,8 +134,7 @@ def receive_from_client(index, conn):
             for _ in range(256000 // split_size):
                 content += conn.recv(split_size)
         except Exception as e:
-            logger.log(index, e)
-            exit(0)
+            break
         # lock.acquire()
         # data = conn.recv(chunk_size)
         # lock.release()

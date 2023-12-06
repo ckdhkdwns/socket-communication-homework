@@ -12,7 +12,7 @@ import time
 
 lock = threading.Semaphore(1)
 client_index = "A"
-temp = split_file("./files/B.file")
+temp = split_file("./files/A.file")
 chunks_length = len(temp)
 sequence_size = 63
 
@@ -66,10 +66,9 @@ def send_chunk():
     count = 0
     while True:
         v = send_queue.get()
-
         send_connections[int(v[:2].decode('utf-8'))].sendall(v[2:])
         count += 1
-    
+
 
 def append_chunk_to_queue(conn, type):
     for index, chunk in enumerate(my_chunks[type]):
@@ -116,6 +115,8 @@ def receive_from_server():
                 ).encode("utf-8")
             )
         elif data == "end":
+            logger.log("모든 전송이 끝났습니다.")
+            conn_server.close()
             break
 
 
@@ -135,8 +136,7 @@ def receive_from_client(index, conn):
             for _ in range(256000 // split_size):
                 content += conn.recv(split_size)
         except Exception as e:
-            logger.log(e)
-            exit(0)
+            break
 
         chunks[client_index][seq] = content
         count += 1
